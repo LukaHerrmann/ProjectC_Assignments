@@ -68,21 +68,25 @@ class CodeMaster():
         return mastergame
 
 
-    def placecolor(self, frame, color, bgcolor, x, y, width, height):
+    def placecolor(self, frame, color, bordercolor, bgcolor, x, y, width, height):
         tempcanvas = Canvas(frame,
                             bg=bgcolor,
                             width=width,
                             height=height,
                             highlightthickness=0)
         tempcanvas.place(relx=x, rely=y)
-        tempcanvas.create_oval(0,0,width,height, fill=color, outline=color)
+        tempcanvas.create_oval(0,0,width,height, fill=color, outline=bordercolor)
         return tempcanvas
 
 
     def placerow(self, frame, colors, bgcolor, x, xstep, y, width, height, bind, start, end):
         index = 0
         for ind in range(start, end):
-            circle = self.placecolor(self, frame, colors[ind], bgcolor, x+index*xstep, y, width, height)
+            if colors[ind] == 'white':
+                bordercolor = 'black'
+            else:
+                bordercolor = colors[ind]
+            circle = self.placecolor(self, frame, colors[ind], bordercolor, bgcolor, x+index*xstep, y, width, height)
             if bind is not None:
                 circle.bind('<1>', bind(self, ind))
             index += 1
@@ -130,6 +134,8 @@ class CodeMaster():
         CodeMaster.colorshow(CodeMaster, root)
 
 
-    def codeconfirm(self, frame):
+    def codeconfirm(self, frame, placeframe, background):
         if len(CodeMaster.code) == 4:
             frame.destroy()
+            self.placerow(self, placeframe, CodeMaster.code, background, 0.15, 0.2, 0.88,
+                          50, 50, None, 0, len(CodeMaster.code))

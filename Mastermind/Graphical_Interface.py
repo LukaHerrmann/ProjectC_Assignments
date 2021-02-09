@@ -3,7 +3,8 @@ from tkinter import *
 
 
 class startscreen():
-    def createscreen(self, windowwidth, windowheight, bgcolor):
+    playerchoice = None
+    def createscreen(self, windowwidth, windowheight, windowtitle, title, bgcolor):
         '''Maakt een scherm aan en geeft die terug'''
         root = Tk()
         # De breedte en hoogte van het scherm ophalen
@@ -14,6 +15,12 @@ class startscreen():
         y_coordinate = int((screenheight/2) - (windowheight/2))
         root.geometry('{}x{}+{}+{}'.format(windowwidth, windowheight, x_coordinate, y_coordinate))
         root.configure(bg=bgcolor)
+        root.title(windowtitle)
+        screentitle = Label(root,
+                            text=title,
+                            font=('',15,'bold'),
+                            bg=bgcolor)
+        screentitle.place(relx=0.5, rely=0.15, anchor=CENTER)
         return root
 
 
@@ -32,6 +39,21 @@ class startscreen():
                                   width=width,
                                   height=height)
         codemasterplayer.place(relx=0.5, rely=0.5+spacing, anchor=CENTER)
+        return codemastercomputer, codemasterplayer
+
+
+    def gotoCMComputer(self, root):
+        ''''''
+        #playerchoice is False als de gebruiker wil dat de computer de codemaster is
+        startscreen.playerchoice = False
+        root.destroy()
+
+
+    def gotoCMPlayer(self, root):
+        ''''''
+        #playerchoice is True als de gebruiker de codemaster wil zijn
+        startscreen.playerchoice = True
+        root.destroy()
 
 
 class CMComputer():

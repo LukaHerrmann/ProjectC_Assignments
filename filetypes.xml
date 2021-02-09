@@ -4,6 +4,7 @@
     <extensionMap>
       <mapping ext="my" type="Native" />
       <mapping ext="pickle" type="Native" />
+      <mapping pattern="Graphical_interface.py" type="PLAIN_TEXT" />
     </extensionMap>
   </component>
 </application>

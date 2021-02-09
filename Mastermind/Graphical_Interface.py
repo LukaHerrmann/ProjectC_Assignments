@@ -16,6 +16,7 @@ class startscreen():
         root.geometry('{}x{}+{}+{}'.format(windowwidth, windowheight, x_coordinate, y_coordinate))
         root.configure(bg=bgcolor)
         root.title(windowtitle)
+        root.resizable(False, False)
         screentitle = Label(root,
                             text=title,
                             font=('',15,'bold'),
@@ -57,7 +58,12 @@ class startscreen():
 
 
 class CMComputer():
-    pass
+    def creategameframe(self, root, width, bgcolor):
+        mastergame = Frame(root,
+                           width=width,
+                           bg=bgcolor)
+        mastergame.pack(anchor='w', fill=Y, expand=True)
+        return mastergame
 
 
 class CMPlayer():

@@ -58,11 +58,11 @@ class startscreen():
 
 
 class CodeMaster():
-    def creategameframe(self, root, width, bgcolor):
+    def creategameframe(self, root, width, side, bgcolor):
         mastergame = Frame(root,
                            width=width,
                            bg=bgcolor)
-        mastergame.pack(anchor='w', fill=Y, expand=True)
+        mastergame.pack(side=side, fill=Y, expand=True)
         return mastergame
 
 
@@ -76,6 +76,22 @@ class CodeMaster():
         tempcanvas.create_oval(0,0,width,height, fill=color, outline=color)
 
 
-    def placerow(self, frame, colors, bgcolor, y, width, height):
+    def placerow(self, frame, colors, bgcolor, x, xstep, y, width, height):
         for ind in range(len(colors)):
-            self.placecolor(frame, colors[ind], bgcolor, 0.1+ind*0.18, y, width, height)
+            self.placecolor(self, frame, colors[ind], bgcolor, x+ind*xstep, y, width, height)
+
+
+    def colorpick(self, frame, allcolors, bgcolor):
+        for ind in range(0, len(allcolors), 3):
+            self.placerow(self, frame, allcolors[ind:ind+3], bgcolor, 0.25, 0.2, 0.3 + ind/3*0.1, 50, 50)
+        title = Label(frame,
+                      text='Pick four colors',
+                      font=('',15,'bold'),
+                      bg=bgcolor)
+        title.place(relx=0.5, rely=0.2, anchor=CENTER)
+        confirm = Button(frame,
+                         text='Confirm',
+                         bg='brown',
+                         width=15,
+                         height=2)
+        confirm.place(relx=0.5, rely=0.6, anchor=CENTER)

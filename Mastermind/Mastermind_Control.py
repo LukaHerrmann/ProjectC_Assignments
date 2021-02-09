@@ -18,14 +18,16 @@ def startingscreen():
 
 def cmcomputer():
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
-    gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, '#bd745d')
+    gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, 'w', '#bd745d')
     root.mainloop()
 
 
 def cmplayer():
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
-    gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, background)
-    CodeMaster.placerow(CodeMaster, gameframe, ['red', 'blue', 'yellow', 'black'], background, 0.05, 50, 50)
+    gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
+    choiceframe = CodeMaster.creategameframe(CodeMaster, root, 400, RIGHT, 'white')
+    # CodeMaster.placerow(CodeMaster, gameframe, ['red', 'blue', 'yellow', 'black'], background, 0.05, 50, 50)
+    CodeMaster.colorpick(CodeMaster, choiceframe, ['black', 'lime', 'orange', 'red', 'blue', 'yellow'], 'white')
     root.mainloop()
 
 

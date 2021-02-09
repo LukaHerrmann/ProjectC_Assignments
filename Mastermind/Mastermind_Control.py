@@ -3,6 +3,8 @@ from tkinter import *
 # import Graphical_Interface
 from Graphical_Interface import *
 
+background = '#bd745d'
+
 
 def startingscreen():
     root = startscreen.createscreen(startscreen, 400, 400,
@@ -16,13 +18,14 @@ def startingscreen():
 
 def cmcomputer():
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
-    gameframe = CMComputer.creategameframe(CMComputer, root, 400, '#bd745d')
+    gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, '#bd745d')
     root.mainloop()
 
 
 def cmplayer():
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
-    gameframe = CMComputer.creategameframe(CMComputer, root, 400, '#bd745d')
+    gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, background)
+    CodeMaster.placerow(CodeMaster, gameframe, ['red', 'blue', 'yellow', 'black'], background, 0.05, 50, 50)
     root.mainloop()
 
 

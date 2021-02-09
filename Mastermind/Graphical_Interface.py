@@ -57,7 +57,7 @@ class startscreen():
         root.destroy()
 
 
-class CMComputer():
+class CodeMaster():
     def creategameframe(self, root, width, bgcolor):
         mastergame = Frame(root,
                            width=width,
@@ -66,5 +66,16 @@ class CMComputer():
         return mastergame
 
 
-class CMPlayer():
-    pass
+    def placecolor(self, frame, color, bgcolor, x, y, width, height):
+        tempcanvas = Canvas(frame,
+                            bg=bgcolor,
+                            width=width,
+                            height=height,
+                            highlightthickness=0)
+        tempcanvas.place(relx=x, rely=y)
+        tempcanvas.create_oval(0,0,width,height, fill=color, outline=color)
+
+
+    def placerow(self, frame, colors, bgcolor, y, width, height):
+        for ind in range(len(colors)):
+            self.placecolor(frame, colors[ind], bgcolor, 0.1+ind*0.18, y, width, height)

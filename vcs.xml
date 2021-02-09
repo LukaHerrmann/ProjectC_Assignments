@@ -10,6 +10,14 @@
           <option name="url" value="https://github.com/LukaHerrmann/ProjectC_Assignments" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/LukaHerrmann/ProjectC_Assignments/tree/main/Mastermind" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/LukaHerrmann/ProjectC_Assignments/Mastermind" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\lukaj\PycharmProjects" />

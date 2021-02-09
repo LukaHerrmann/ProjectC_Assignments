@@ -64,7 +64,7 @@ class CodeMaster():
         mastergame = Frame(root,
                            width=width,
                            bg=bgcolor)
-        mastergame.pack(side=side, fill=Y, expand=True)
+        mastergame.pack(side=side, fill=Y, expand=True, anchor='w')
         return mastergame
 
 
@@ -104,6 +104,7 @@ class CodeMaster():
                          width=15,
                          height=2)
         confirm.place(relx=0.5, rely=0.6, anchor=CENTER)
+        return confirm
 
 
     def coloradd(self, index, root):
@@ -127,3 +128,8 @@ class CodeMaster():
     def colorremove(self, index, root):
         CodeMaster.code.pop(index)
         CodeMaster.colorshow(CodeMaster, root)
+
+
+    def codeconfirm(self, frame):
+        if len(CodeMaster.code) == 4:
+            frame.destroy()

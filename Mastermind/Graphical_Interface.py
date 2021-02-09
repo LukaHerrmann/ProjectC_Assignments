@@ -58,6 +58,7 @@ class startscreen():
 
 
 class CodeMaster():
+    allcolors = ['black', 'lime', 'orange', 'red', 'blue', 'yellow']
     code = []
     def creategameframe(self, root, width, side, bgcolor):
         mastergame = Frame(root,
@@ -78,18 +79,20 @@ class CodeMaster():
         return tempcanvas
 
 
-    def placerow(self, frame, colors, bgcolor, x, xstep, y, width, height, bind):
-        for ind in range(len(colors)):
-            circle = self.placecolor(self, frame, colors[ind], bgcolor, x+ind*xstep, y, width, height)
+    def placerow(self, frame, colors, bgcolor, x, xstep, y, width, height, bind, start, end):
+        index = 0
+        for ind in range(start, end):
+            circle = self.placecolor(self, frame, colors[ind], bgcolor, x+index*xstep, y, width, height)
             if bind is not None:
-                circle.bind('<1>', bind(self, colors[ind]))
+                circle.bind('<1>', bind(self, ind))
+            index += 1
 
 
 
     def colorpick(self, frame, allcolors, bgcolor, title):
         for ind in range(0, len(allcolors), 3):
-            self.placerow(self, frame, allcolors[ind:ind+3],
-                          bgcolor, 0.25, 0.2, 0.3 + ind/3*0.1, 50, 50, lambda x, y:(lambda x:self.coloradd(x, y, frame)))
+            self.placerow(self, frame, allcolors, bgcolor, 0.25, 0.2,
+                          0.3 + ind/3*0.1, 50, 50, lambda x, y:(lambda x:self.coloradd(x, y, frame)), ind, ind+3)
         title = Label(frame,
                       text='Pick four colors {}'.format(title),
                       font=('',15,'bold'),
@@ -103,18 +106,24 @@ class CodeMaster():
         confirm.place(relx=0.5, rely=0.6, anchor=CENTER)
 
 
-    def coloradd(self, color, root):
+    def coloradd(self, index, root):
         if len(CodeMaster.code) < 4:
-            CodeMaster.code.append(color)
+            CodeMaster.code.append(CodeMaster.allcolors[index])
             CodeMaster.colorshow(CodeMaster, root)
 
 
     def colorshow(self, root):
         try:
-            self.frame.destroy()
+            self.colorframe.destroy()
         except AttributeError:
             pass
-        self.frame = Frame(root,
+        self.colorframe = Frame(root,
                            bg='white')
-        self.frame.place(rely=0.7, height=100, width=400)
-        self.placerow(self, self.frame, CodeMaster.code, 'white', 0.15, 0.2, 0.5, 50, 50, None)
+        self.colorframe.place(rely=0.7, height=100, width=400)
+        self.placerow(self, self.colorframe, CodeMaster.code, 'white', 0.15, 0.2, 0.5, 50, 50,
+                      lambda x, y:(lambda x:self.colorremove(x, y, root)), 0, len(CodeMaster.code))
+
+
+    def colorremove(self, index, root):
+        CodeMaster.code.pop(index)
+        CodeMaster.colorshow(CodeMaster, root)

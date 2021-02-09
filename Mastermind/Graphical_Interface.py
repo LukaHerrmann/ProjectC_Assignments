@@ -58,6 +58,7 @@ class startscreen():
 
 
 class CodeMaster():
+    code = []
     def creategameframe(self, root, width, side, bgcolor):
         mastergame = Frame(root,
                            width=width,
@@ -74,18 +75,23 @@ class CodeMaster():
                             highlightthickness=0)
         tempcanvas.place(relx=x, rely=y)
         tempcanvas.create_oval(0,0,width,height, fill=color, outline=color)
+        return tempcanvas
 
 
-    def placerow(self, frame, colors, bgcolor, x, xstep, y, width, height):
+    def placerow(self, frame, colors, bgcolor, x, xstep, y, width, height, bind):
         for ind in range(len(colors)):
-            self.placecolor(self, frame, colors[ind], bgcolor, x+ind*xstep, y, width, height)
+            circle = self.placecolor(self, frame, colors[ind], bgcolor, x+ind*xstep, y, width, height)
+            if bind is not None:
+                circle.bind('<1>', bind(self, colors[ind]))
 
 
-    def colorpick(self, frame, allcolors, bgcolor):
+
+    def colorpick(self, frame, allcolors, bgcolor, title):
         for ind in range(0, len(allcolors), 3):
-            self.placerow(self, frame, allcolors[ind:ind+3], bgcolor, 0.25, 0.2, 0.3 + ind/3*0.1, 50, 50)
+            self.placerow(self, frame, allcolors[ind:ind+3],
+                          bgcolor, 0.25, 0.2, 0.3 + ind/3*0.1, 50, 50, lambda x, y:(lambda x:self.coloradd(x, y, frame)))
         title = Label(frame,
-                      text='Pick four colors',
+                      text='Pick four colors {}'.format(title),
                       font=('',15,'bold'),
                       bg=bgcolor)
         title.place(relx=0.5, rely=0.2, anchor=CENTER)
@@ -95,3 +101,20 @@ class CodeMaster():
                          width=15,
                          height=2)
         confirm.place(relx=0.5, rely=0.6, anchor=CENTER)
+
+
+    def coloradd(self, color, root):
+        if len(CodeMaster.code) < 4:
+            CodeMaster.code.append(color)
+            CodeMaster.colorshow(CodeMaster, root)
+
+
+    def colorshow(self, root):
+        try:
+            self.frame.destroy()
+        except AttributeError:
+            pass
+        self.frame = Frame(root,
+                           bg='white')
+        self.frame.place(rely=0.7, height=100, width=400)
+        self.placerow(self, self.frame, CodeMaster.code, 'white', 0.15, 0.2, 0.5, 50, 50, None)

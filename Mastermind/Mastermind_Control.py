@@ -27,7 +27,8 @@ def cmplayer():
     gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
     choiceframe = CodeMaster.creategameframe(CodeMaster, root, 400, RIGHT, 'white')
     # CodeMaster.placerow(CodeMaster, gameframe, ['red', 'blue', 'yellow', 'black'], background, 0.05, 50, 50)
-    CodeMaster.colorpick(CodeMaster, choiceframe, ['black', 'lime', 'orange', 'red', 'blue', 'yellow'], 'white')
+    CodeMaster.colorpick(CodeMaster, choiceframe,
+                         ['black', 'lime', 'orange', 'red', 'blue', 'yellow'], 'white', 'for the code')
     root.mainloop()
 
 

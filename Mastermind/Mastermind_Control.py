@@ -18,7 +18,7 @@ def startingscreen():
 
 def cmcomputer():
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
-    gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, 'w', '#bd745d')
+    gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
     root.mainloop()
 
 
@@ -28,8 +28,10 @@ def cmplayer():
     choiceframe = CodeMaster.creategameframe(CodeMaster, root, 400, RIGHT, 'white')
     guessframe = CodeMaster.creategameframe(CodeMaster, root, 400, RIGHT, 'white')
     confirm = CodeMaster.colorpick(CodeMaster, choiceframe,
-                                   ['black', 'lime', 'orange', 'red', 'blue', 'yellow'], 'white', 'for the code')
-    confirm.configure(command=lambda: CodeMaster.codeconfirm(CodeMaster, choiceframe, gameframe, background))
+                                   ['black', 'lime', 'orange', 'red', 'blue', 'yellow'],
+                                   'white', 'Pick four colors for the code')
+    confirm.configure(command=lambda: CodeMaster.codeconfirm(CodeMaster, choiceframe, gameframe,
+                                                             guessframe, background))
 
     root.mainloop()
 

@@ -29,13 +29,13 @@ class startscreen():
         '''Maakt de knoppen, zodat de gebruiker de keuze kan maken om de codemaster te zijn
         of de code te raden'''
         codemastercomputer = Button(root,
-                                    text='Raad de code',
+                                    text='Guess the code',
                                     bg=buttoncolor,
                                     width=width,
                                     height=height)
         codemastercomputer.place(relx=0.5, rely=0.5-spacing, anchor=CENTER)
         codemasterplayer = Button(root,
-                                  text='Bepaal de code',
+                                  text='Make the code',
                                   bg=buttoncolor,
                                   width=width,
                                   height=height)
@@ -60,6 +60,7 @@ class startscreen():
 class CodeMaster():
     allcolors = ['black', 'lime', 'orange', 'red', 'blue', 'yellow']
     code = []
+    pins = []
     def creategameframe(self, root, width, side, bgcolor):
         mastergame = Frame(root,
                            width=width,
@@ -74,31 +75,41 @@ class CodeMaster():
                             width=width,
                             height=height,
                             highlightthickness=0)
-        tempcanvas.place(relx=x, rely=y)
+        tempcanvas.place(relx=x, rely=y, anchor=CENTER)
         tempcanvas.create_oval(0,0,width,height, fill=color, outline=bordercolor)
         return tempcanvas
 
 
     def placerow(self, frame, colors, bgcolor, x, xstep, y, width, height, bind, start, end):
-        index = 0
         for ind in range(start, end):
             if colors[ind] == 'white':
                 bordercolor = 'black'
             else:
                 bordercolor = colors[ind]
-            circle = self.placecolor(self, frame, colors[ind], bordercolor, bgcolor, x+index*xstep, y, width, height)
+            circle = self.placecolor(self, frame, colors[ind], bordercolor,
+                                     bgcolor, x+(ind-start)*xstep, y, width, height)
             if bind is not None:
                 circle.bind('<1>', bind(self, ind))
-            index += 1
-
 
 
     def colorpick(self, frame, allcolors, bgcolor, title):
+        if len(allcolors) > 2:
+            results = CodeMaster.code
+        else:
+            results = CodeMaster.pins
+        x = 0.3
+        xstep = 0.2
         for ind in range(0, len(allcolors), 3):
-            self.placerow(self, frame, allcolors, bgcolor, 0.25, 0.2,
-                          0.3 + ind/3*0.1, 50, 50, lambda x, y:(lambda x:self.coloradd(x, y, frame)), ind, ind+3)
+            endindex = ind+3
+            if endindex > len(allcolors):
+                endindex = len(allcolors)
+            if (endindex - ind) % 2 == 0:
+                x += (xstep / 2)
+            self.placerow(self, frame, allcolors, bgcolor, x, xstep,
+                          0.3 + ind/3*0.1, 50, 50,
+                          lambda x, y:(lambda x:self.coloradd(x, y, frame, allcolors, results)), ind, endindex)
         title = Label(frame,
-                      text='Pick four colors {}'.format(title),
+                      text=title,
                       font=('',15,'bold'),
                       bg=bgcolor)
         title.place(relx=0.5, rely=0.2, anchor=CENTER)
@@ -111,13 +122,13 @@ class CodeMaster():
         return confirm
 
 
-    def coloradd(self, index, root):
-        if len(CodeMaster.code) < 4:
-            CodeMaster.code.append(CodeMaster.allcolors[index])
-            CodeMaster.colorshow(CodeMaster, root)
+    def coloradd(self, index, root, colors, result):
+        if len(result) < 4:
+            result.append(colors[index])
+            CodeMaster.colorshow(CodeMaster, root, result)
 
 
-    def colorshow(self, root):
+    def colorshow(self, root, result):
         try:
             self.colorframe.destroy()
         except AttributeError:
@@ -125,17 +136,20 @@ class CodeMaster():
         self.colorframe = Frame(root,
                            bg='white')
         self.colorframe.place(rely=0.7, height=100, width=400)
-        self.placerow(self, self.colorframe, CodeMaster.code, 'white', 0.15, 0.2, 0.5, 50, 50,
-                      lambda x, y:(lambda x:self.colorremove(x, y, root)), 0, len(CodeMaster.code))
+        self.placerow(self, self.colorframe, result, 'white', 0.15, 0.2, 0.5, 50, 50,
+                      lambda x, y:(lambda x:self.colorremove(x, y, root, result)), 0, len(result))
 
 
-    def colorremove(self, index, root):
-        CodeMaster.code.pop(index)
-        CodeMaster.colorshow(CodeMaster, root)
+    def colorremove(self, index, root, result):
+        result.pop(index)
+        CodeMaster.colorshow(CodeMaster, root, result)
 
 
-    def codeconfirm(self, frame, placeframe, background):
+    def codeconfirm(self, frame, placeframe, nextframe, background):
         if len(CodeMaster.code) == 4:
             frame.destroy()
-            self.placerow(self, placeframe, CodeMaster.code, background, 0.15, 0.2, 0.88,
+            self.placerow(self, placeframe, CodeMaster.code, background, 0.2, 0.2, 0.88,
                           50, 50, None, 0, len(CodeMaster.code))
+
+            confirmguess = CodeMaster.colorpick(CodeMaster, nextframe, ['black', 'white'], 'white',
+                                                'Pick the correct pins')

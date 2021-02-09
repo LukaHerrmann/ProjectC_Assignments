@@ -1,7 +1,0 @@
-# Luka Herrmann
-
-
-# Handleiding
-
-
-# Pseudocode

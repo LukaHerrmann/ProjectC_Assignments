@@ -172,9 +172,10 @@ class CodeMaster():
                           15, 15, None, index, endindex)
 
 
-    def showguess(self, frame, root, placeframe, background, colorguess, allcolors, totalguess, guessnumber):
+    def showguess(self, frame, placeframe, background, colorguess, totalguess, guessnumber):
         if len(colorguess) == 4:
-            frame.destroy()
+            if frame != None:
+                frame.destroy()
             CodeMaster.goVar.set(1)
             self.placerow(self, placeframe, colorguess, background, 0.15, 0.16, guessnumber/totalguess*0.8,
                           40, 40, None, 0, len(colorguess))

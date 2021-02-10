@@ -1,9 +1,8 @@
 from tkinter import *
 
-# import Graphical_Interface
 from Graphical_Interface import *
-import CodeMaster_Computer
-import CodeMaster_Player
+from CodeMaster import CodeMaster_Player
+from CodeMaster import CodeMaster_Computer
 
 maxguesses = 8
 background = '#bd745d'
@@ -24,13 +23,14 @@ def startingscreen():
 def cmcomputer():
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
     gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
-    code = CodeMaster_Computer.makecode(allcolors, 4)
+    code = CodeMaster_Computer.makecode(CodeMaster_Computer, allcolors, 4)
     for round in range(1, maxguesses+1):
         confirm = CodeMaster.colorpick(CodeMaster, root, allcolors, 'white', 'Guess a code')
-        confirm[0].configure(command=lambda: CodeMaster.showguess(CodeMaster, confirm[1], root, gameframe, background, CodeMaster.code,
-                                                               allcolors, maxguesses, round))
+        confirm[0].configure(command=lambda: CodeMaster.showguess(CodeMaster, confirm[1], gameframe, background,
+                                                                  CodeMaster.code, maxguesses, round))
         confirm[0].wait_variable(CodeMaster.goVar)
-        pins = CodeMaster_Computer.determinepins(code, CodeMaster.code)
+        pincolors = CodeMaster_Computer.determinepins(CodeMaster_Computer, code, CodeMaster.code)
+        pins = CodeMaster_Computer.feedbacktocolor(CodeMaster_Computer, pincolors)
         CodeMaster.showpins(CodeMaster, gameframe, background, pins, maxguesses, round)
         if pins == ['black' for x in range(4)]:
             result = Label(root,
@@ -51,6 +51,7 @@ def cmcomputer():
 
 
 def cmplayer():
+    possibilities = CodeMaster_Player.getpossiblecombinations(CodeMaster_Player, '012345')
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
     gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
     confirm = CodeMaster.colorpick(CodeMaster, root, allcolors,
@@ -58,16 +59,16 @@ def cmplayer():
     confirm[0].configure(command=lambda: CodeMaster.codeconfirm(CodeMaster,root, confirm[1], gameframe, background,
                                                                 maxguesses, 1))
     confirm[0].wait_variable(CodeMaster.goVar)
-    code = CodeMaster_Player.colortonumb(CodeMaster.code, allcolors)
+    code = CodeMaster_Player.colortonumb(CodeMaster_Player, CodeMaster.code, allcolors)
     for round in range(1, maxguesses+1):
-        print(round)
+        computerguess = CodeMaster_Player.numbtocolor(CodeMaster_Player, possibilities[0], allcolors)
         confirm = CodeMaster.colorpick(CodeMaster, root, pins, 'white',
                                             'Pick the correct pins')
         confirm[0].configure(command=lambda: CodeMaster.pinconfirm(CodeMaster, confirm[1], gameframe, background,
                                                                   CodeMaster.pins, maxguesses, round))
+        CodeMaster.showguess(CodeMaster, None, gameframe, background, computerguess, maxguesses, round)
         confirm[0].wait_variable(CodeMaster.goVar)
-
-
+        feedback = CodeMaster_Player.getfeedback(CodeMaster_Player, CodeMaster.pins)
     root.mainloop()
 
 

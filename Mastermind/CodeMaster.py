@@ -14,12 +14,16 @@ class CodeMaster_Computer():
         het aantal zwarte pinnen ervan afgetrokken, omdat daarmee niet rekening wordt gehouden.'''
         # methode om witte pins te berekenen van TigerhawkT3 op YouTube
         # link: https://www.youtube.com/watch?v=Hv47MO1vQAo
-        codefreq = self.makefrequencydict(code)
-        guessfreq = self.makefrequencydict(guesscolors)
+        codefreq = self.makefrequencydict(self, code)
+        guessfreq = self.makefrequencydict(self, guesscolors)
         black = sum([x == y for x, y in zip(code, guesscolors)])
         white = sum(min(codefreq[x], guessfreq[x] if x in guessfreq.keys() else 0) for x in codefreq.keys())
         white -= black
-        pins = ['black' for x in range(black)] + ['white' for y in range(white)]
+        return black, white
+
+
+    def feedbacktocolor(self, feedback):
+        pins = ['black' for x in range(feedback[0])] + ['white' for y in range(feedback[1])]
         return pins
 
 
@@ -55,18 +59,23 @@ class CodeMaster_Player():
         return possibilites
 
 
-    def makepinfeedback(self, pins):
-        black = 0
-        white = 0
-        for pin in pins:
-            black += (pin == 'black')
-            white += (pin == 'white')
+    def newposibilities(self, possibilities, guess, feedback):
+        new = []
+        for possibility in possibilities:
+            tempfeedback = CodeMaster_Computer.determinepins(CodeMaster_Computer, guess, possibility)
+            if tempfeedback == feedback:
+                new.append(possibility)
+        return new
+
+
+    def getfeedback(self, list):
+        feedbackdict = CodeMaster_Computer.makefrequencydict(CodeMaster_Computer, list)
+        if 'black' in feedbackdict.keys():
+            black = feedbackdict['black']
+        else:
+            black = 0
+        if 'white' in feedbackdict.keys():
+            white = feedbackdict['white']
+        else:
+            white = 0
         return black, white
-
-
-    def generate_feedback(self, code, guess):
-        pass
-
-
-    def newposibilities(self, posibilities, guess, feedback):
-        pass

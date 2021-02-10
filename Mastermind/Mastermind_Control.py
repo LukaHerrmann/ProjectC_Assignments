@@ -2,6 +2,7 @@ from tkinter import *
 
 # import Graphical_Interface
 from Graphical_Interface import *
+import CodeMaster_Computer
 
 background = '#bd745d'
 allcolors = ['black', 'lime', 'orange', 'red', 'blue', 'yellow']
@@ -20,6 +21,12 @@ def startingscreen():
 def cmcomputer():
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
     gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
+    code = CodeMaster_Computer.makecode(allcolors, 4)
+    choiceframe = CodeMaster.creategameframe(CodeMaster, root, 400, RIGHT, 'white')
+    confirm = CodeMaster.colorpick(CodeMaster, choiceframe, allcolors, 'white', 'Guess a code')
+    confirm.configure(command=lambda: CodeMaster.showguess(CodeMaster, gameframe, background, CodeMaster.code,
+                                                           8, 1))
+    print(CodeMaster_Computer.determinepins(code, ['black', 'white', 'black', 'blue']))
     root.mainloop()
 
 

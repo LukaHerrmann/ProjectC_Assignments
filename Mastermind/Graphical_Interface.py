@@ -158,10 +158,19 @@ class CodeMaster():
 
     def pinconfirm(self, frame, placeframe, background):
         frame.destroy()
+        self.showpins(self, placeframe, background)
+        CodeMaster.pins = []
+
+
+    def showpins(self, placeframe, background):
         for index in range(0, len(CodeMaster.pins), 2):
             endindex = index + 2
             if endindex > len(CodeMaster.pins):
                 endindex = len(CodeMaster.pins)
             self.placerow(self, placeframe, CodeMaster.pins, background, 0.85, 0.08, 0.05+index*0.02,
                           20, 20, None, index, endindex)
-        CodeMaster.pins = []
+
+
+    def showguess(self, frame, background, colorguess, totalguess, guessnumber):
+        self.placerow(self, frame, colorguess, background, 0.15, 0.16, guessnumber/totalguess*0.8,
+                      40, 40, None, 0, len(colorguess))

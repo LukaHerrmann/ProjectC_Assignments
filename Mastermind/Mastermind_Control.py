@@ -4,6 +4,7 @@ from tkinter import *
 from Graphical_Interface import *
 
 background = '#bd745d'
+allcolors = ['black', 'lime', 'orange', 'red', 'blue', 'yellow']
 
 
 def startingscreen():
@@ -27,12 +28,10 @@ def cmplayer():
     gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
     choiceframe = CodeMaster.creategameframe(CodeMaster, root, 400, RIGHT, 'white')
     guessframe = CodeMaster.creategameframe(CodeMaster, root, 400, RIGHT, 'white')
-    confirm = CodeMaster.colorpick(CodeMaster, choiceframe,
-                                   ['black', 'lime', 'orange', 'red', 'blue', 'yellow'],
+    confirm = CodeMaster.colorpick(CodeMaster, choiceframe, allcolors,
                                    'white', 'Pick four colors for the code')
     confirm.configure(command=lambda: CodeMaster.codeconfirm(CodeMaster, choiceframe, gameframe,
                                                              guessframe, background))
-
     root.mainloop()
 
 

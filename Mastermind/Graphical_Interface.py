@@ -58,9 +58,9 @@ class startscreen():
 
 
 class CodeMaster():
-    allcolors = ['black', 'lime', 'orange', 'red', 'blue', 'yellow']
     code = []
     pins = []
+    step = 1
     def creategameframe(self, root, width, side, bgcolor):
         mastergame = Frame(root,
                            width=width,
@@ -153,3 +153,15 @@ class CodeMaster():
 
             confirmguess = CodeMaster.colorpick(CodeMaster, nextframe, ['black', 'white'], 'white',
                                                 'Pick the correct pins')
+            confirmguess.configure(command=lambda: self.pinconfirm(self, frame, placeframe, background))
+
+
+    def pinconfirm(self, frame, placeframe, background):
+        frame.destroy()
+        for index in range(0, len(CodeMaster.pins), 2):
+            endindex = index + 2
+            if endindex > len(CodeMaster.pins):
+                endindex = len(CodeMaster.pins)
+            self.placerow(self, placeframe, CodeMaster.pins, background, 0.85, 0.08, 0.05+index*0.02,
+                          20, 20, None, index, endindex)
+        CodeMaster.pins = []

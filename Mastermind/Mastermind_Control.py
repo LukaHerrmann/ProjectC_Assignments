@@ -3,6 +3,7 @@ from tkinter import *
 # import Graphical_Interface
 from Graphical_Interface import *
 import CodeMaster_Computer
+import CodeMaster_Player
 
 maxguesses = 8
 background = '#bd745d'
@@ -70,4 +71,4 @@ def start():
 
 
 if __name__ == '__main__':
-    start()
+    CodeMaster_Player.getpossiblecombinations('012345')

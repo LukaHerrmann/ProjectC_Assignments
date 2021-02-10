@@ -31,8 +31,20 @@ def cmcomputer():
         pins = CodeMaster_Computer.determinepins(code, CodeMaster.code)
         CodeMaster.showpins(CodeMaster, gameframe, background, pins, maxguesses, round)
         if pins == ['black' for x in range(4)]:
+            result = Label(root,
+                           text='You won :)',
+                           font=('', 15, 'bold'),
+                           bg='white')
+            result.pack(side=RIGHT, padx=(0, 50))
             break
-
+    else:
+        result = Label(root,
+                       text='You lost :(',
+                       font=('',15,'bold'),
+                       bg='white')
+        result.pack(side=RIGHT,padx=(0,50))
+        CodeMaster.placerow(CodeMaster, gameframe, code, background, 0.2, 0.2, 0.92,
+                      50, 50, None, 0, len(code))
     root.mainloop()
 
 
@@ -41,7 +53,8 @@ def cmplayer():
     gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
     confirm = CodeMaster.colorpick(CodeMaster, root, allcolors,
                                    'white', 'Pick four colors for the code')
-    confirm[0].configure(command=lambda: CodeMaster.codeconfirm(CodeMaster,root, confirm[1], gameframe, background))
+    confirm[0].configure(command=lambda: CodeMaster.codeconfirm(CodeMaster,root, confirm[1], gameframe, background,
+                                                                maxguesses, 1))
     root.mainloop()
 
 

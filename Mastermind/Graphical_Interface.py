@@ -149,21 +149,21 @@ class CodeMaster():
         CodeMaster.colorshow(CodeMaster, root, result)
 
 
-    def codeconfirm(self, root, frame, placeframe, background):
+    def codeconfirm(self, root, frame, placeframe, background, totalguess, guessnumber):
         if len(CodeMaster.code) == 4:
             frame.destroy()
-            self.placerow(self, placeframe, CodeMaster.code, background, 0.2, 0.2, 0.88,
+            self.placerow(self, placeframe, CodeMaster.code, background, 0.2, 0.2, 0.92,
                           50, 50, None, 0, len(CodeMaster.code))
 
             confirmguess = CodeMaster.colorpick(CodeMaster, root, ['black', 'white'], 'white',
                                                 'Pick the correct pins')
-            confirmguess[0].configure(command=lambda: self.pinconfirm(self, confirmguess[1], placeframe,
-                                                                      background, CodeMaster.pins))
+            confirmguess[0].configure(command=lambda: self.pinconfirm(self, confirmguess[1], placeframe, background,
+                                                                      CodeMaster.pins, totalguess, guessnumber))
 
 
-    def pinconfirm(self, frame, placeframe, background, guess):
+    def pinconfirm(self, frame, placeframe, background, guess, totalguess, guessnumber):
         frame.destroy()
-        self.showpins(self, placeframe, background, guess)
+        self.showpins(self, placeframe, background, guess, totalguess, guessnumber)
 
 
     def showpins(self, placeframe, background, guess, totalguess, guessnumber):

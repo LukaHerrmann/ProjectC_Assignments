@@ -4,6 +4,7 @@ from tkinter import *
 from Graphical_Interface import *
 import CodeMaster_Computer
 
+maxguesses = 8
 background = '#bd745d'
 allcolors = ['black', 'lime', 'orange', 'red', 'blue', 'yellow']
 
@@ -22,23 +23,25 @@ def cmcomputer():
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
     gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
     code = CodeMaster_Computer.makecode(allcolors, 4)
-    choiceframe = CodeMaster.creategameframe(CodeMaster, root, 400, RIGHT, 'white')
-    confirm = CodeMaster.colorpick(CodeMaster, choiceframe, allcolors, 'white', 'Guess a code')
-    confirm.configure(command=lambda: CodeMaster.showguess(CodeMaster, gameframe, background, CodeMaster.code,
-                                                           8, 1))
-    print(CodeMaster_Computer.determinepins(code, ['black', 'white', 'black', 'blue']))
+    for round in range(1, maxguesses+1):
+        confirm = CodeMaster.colorpick(CodeMaster, root, allcolors, 'white', 'Guess a code')
+        confirm[0].configure(command=lambda: CodeMaster.showguess(CodeMaster, confirm[1], root, gameframe, background, CodeMaster.code,
+                                                               allcolors, maxguesses, round))
+        confirm[0].wait_variable(CodeMaster.goVar)
+        pins = CodeMaster_Computer.determinepins(code, CodeMaster.code)
+        CodeMaster.showpins(CodeMaster, gameframe, background, pins, maxguesses, round)
+        if pins == ['black' for x in range(4)]:
+            break
+
     root.mainloop()
 
 
 def cmplayer():
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
     gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
-    choiceframe = CodeMaster.creategameframe(CodeMaster, root, 400, RIGHT, 'white')
-    guessframe = CodeMaster.creategameframe(CodeMaster, root, 400, RIGHT, 'white')
-    confirm = CodeMaster.colorpick(CodeMaster, choiceframe, allcolors,
+    confirm = CodeMaster.colorpick(CodeMaster, root, allcolors,
                                    'white', 'Pick four colors for the code')
-    confirm.configure(command=lambda: CodeMaster.codeconfirm(CodeMaster, choiceframe, gameframe,
-                                                             guessframe, background))
+    confirm[0].configure(command=lambda: CodeMaster.codeconfirm(CodeMaster,root, confirm[1], gameframe, background))
     root.mainloop()
 
 

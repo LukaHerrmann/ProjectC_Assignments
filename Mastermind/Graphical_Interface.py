@@ -93,9 +93,13 @@ class CodeMaster():
 
 
     def colorpick(self, frame, allcolors, bgcolor, title):
+        CodeMaster.goVar = IntVar()
+        choiceframe = CodeMaster.creategameframe(CodeMaster, frame, 400, RIGHT, 'white')
         if len(allcolors) > 2:
+            CodeMaster.code = []
             results = CodeMaster.code
         else:
+            CodeMaster.pins = []
             results = CodeMaster.pins
         x = 0.3
         xstep = 0.2
@@ -105,21 +109,21 @@ class CodeMaster():
                 endindex = len(allcolors)
             if (endindex - ind) % 2 == 0:
                 x += (xstep / 2)
-            self.placerow(self, frame, allcolors, bgcolor, x, xstep,
+            self.placerow(self, choiceframe, allcolors, bgcolor, x, xstep,
                           0.3 + ind/3*0.1, 50, 50,
-                          lambda x, y:(lambda x:self.coloradd(x, y, frame, allcolors, results)), ind, endindex)
-        title = Label(frame,
+                          lambda x, y:(lambda x:self.coloradd(x, y, choiceframe, allcolors, results)), ind, endindex)
+        title = Label(choiceframe,
                       text=title,
                       font=('',15,'bold'),
                       bg=bgcolor)
         title.place(relx=0.5, rely=0.2, anchor=CENTER)
-        confirm = Button(frame,
+        confirm = Button(choiceframe,
                          text='Confirm',
                          bg='brown',
                          width=15,
                          height=2)
         confirm.place(relx=0.5, rely=0.6, anchor=CENTER)
-        return confirm
+        return confirm, choiceframe
 
 
     def coloradd(self, index, root, colors, result):
@@ -145,32 +149,35 @@ class CodeMaster():
         CodeMaster.colorshow(CodeMaster, root, result)
 
 
-    def codeconfirm(self, frame, placeframe, nextframe, background):
+    def codeconfirm(self, root, frame, placeframe, background):
         if len(CodeMaster.code) == 4:
             frame.destroy()
             self.placerow(self, placeframe, CodeMaster.code, background, 0.2, 0.2, 0.88,
                           50, 50, None, 0, len(CodeMaster.code))
 
-            confirmguess = CodeMaster.colorpick(CodeMaster, nextframe, ['black', 'white'], 'white',
+            confirmguess = CodeMaster.colorpick(CodeMaster, root, ['black', 'white'], 'white',
                                                 'Pick the correct pins')
-            confirmguess.configure(command=lambda: self.pinconfirm(self, frame, placeframe, background))
+            confirmguess[0].configure(command=lambda: self.pinconfirm(self, confirmguess[1], placeframe,
+                                                                      background, CodeMaster.pins))
 
 
-    def pinconfirm(self, frame, placeframe, background):
+    def pinconfirm(self, frame, placeframe, background, guess):
         frame.destroy()
-        self.showpins(self, placeframe, background)
-        CodeMaster.pins = []
+        self.showpins(self, placeframe, background, guess)
 
 
-    def showpins(self, placeframe, background):
-        for index in range(0, len(CodeMaster.pins), 2):
+    def showpins(self, placeframe, background, guess, totalguess, guessnumber):
+        for index in range(0, len(guess), 2):
             endindex = index + 2
-            if endindex > len(CodeMaster.pins):
-                endindex = len(CodeMaster.pins)
-            self.placerow(self, placeframe, CodeMaster.pins, background, 0.85, 0.08, 0.05+index*0.02,
-                          20, 20, None, index, endindex)
+            if endindex > len(guess):
+                endindex = len(guess)
+            self.placerow(self, placeframe, guess, background, 0.85, 0.08, guessnumber/totalguess*0.8-0.02+index*0.02,
+                          15, 15, None, index, endindex)
 
 
-    def showguess(self, frame, background, colorguess, totalguess, guessnumber):
-        self.placerow(self, frame, colorguess, background, 0.15, 0.16, guessnumber/totalguess*0.8,
-                      40, 40, None, 0, len(colorguess))
+    def showguess(self, frame, root, placeframe, background, colorguess, allcolors, totalguess, guessnumber):
+        if len(colorguess) == 4:
+            frame.destroy()
+            CodeMaster.goVar.set(1)
+            self.placerow(self, placeframe, colorguess, background, 0.15, 0.16, guessnumber/totalguess*0.8,
+                          40, 40, None, 0, len(colorguess))

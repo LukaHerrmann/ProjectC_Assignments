@@ -154,16 +154,13 @@ class CodeMaster():
             frame.destroy()
             self.placerow(self, placeframe, CodeMaster.code, background, 0.2, 0.2, 0.92,
                           50, 50, None, 0, len(CodeMaster.code))
-
-            confirmguess = CodeMaster.colorpick(CodeMaster, root, ['black', 'white'], 'white',
-                                                'Pick the correct pins')
-            confirmguess[0].configure(command=lambda: self.pinconfirm(self, confirmguess[1], placeframe, background,
-                                                                      CodeMaster.pins, totalguess, guessnumber))
+            CodeMaster.goVar.set(1)
 
 
-    def pinconfirm(self, frame, placeframe, background, guess, totalguess, guessnumber):
+    def pinconfirm(self, frame, placeframe, background, pins, totalguess, guessnumber):
         frame.destroy()
-        self.showpins(self, placeframe, background, guess, totalguess, guessnumber)
+        CodeMaster.goVar.set(1)
+        self.showpins(self, placeframe, background, pins, totalguess, guessnumber)
 
 
     def showpins(self, placeframe, background, guess, totalguess, guessnumber):

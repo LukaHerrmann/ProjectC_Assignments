@@ -8,6 +8,7 @@ import CodeMaster_Player
 maxguesses = 8
 background = '#bd745d'
 allcolors = ['black', 'lime', 'orange', 'red', 'blue', 'yellow']
+pins = ['black', 'white']
 
 
 def startingscreen():
@@ -56,6 +57,17 @@ def cmplayer():
                                    'white', 'Pick four colors for the code')
     confirm[0].configure(command=lambda: CodeMaster.codeconfirm(CodeMaster,root, confirm[1], gameframe, background,
                                                                 maxguesses, 1))
+    confirm[0].wait_variable(CodeMaster.goVar)
+    code = CodeMaster_Player.colortonumb(CodeMaster.code, allcolors)
+    for round in range(1, maxguesses+1):
+        print(round)
+        confirm = CodeMaster.colorpick(CodeMaster, root, pins, 'white',
+                                            'Pick the correct pins')
+        confirm[0].configure(command=lambda: CodeMaster.pinconfirm(CodeMaster, confirm[1], gameframe, background,
+                                                                  CodeMaster.pins, maxguesses, round))
+        confirm[0].wait_variable(CodeMaster.goVar)
+
+
     root.mainloop()
 
 
@@ -71,4 +83,4 @@ def start():
 
 
 if __name__ == '__main__':
-    CodeMaster_Player.getpossiblecombinations('012345')
+    start()

@@ -61,14 +61,37 @@ def cmplayer():
     confirm[0].wait_variable(CodeMaster.goVar)
     code = CodeMaster_Player.colortonumb(CodeMaster_Player, CodeMaster.code, allcolors)
     for round in range(1, maxguesses+1):
-        computerguess = CodeMaster_Player.numbtocolor(CodeMaster_Player, possibilities[0], allcolors)
+        if len(possibilities) == 0:
+            result = Label(root,
+                           text='You chose the pins wrong >:(',
+                           font=('', 15, 'bold'),
+                           bg='white')
+            result.pack(side=RIGHT, padx=(0, 50))
+            break
+        computerguesscolor = CodeMaster_Player.numbtocolor(CodeMaster_Player, possibilities[0], allcolors)
+        computerguesscode = CodeMaster_Player.colortonumb(CodeMaster_Player, computerguesscolor, allcolors)
         confirm = CodeMaster.colorpick(CodeMaster, root, pins, 'white',
-                                            'Pick the correct pins')
+                                       'Pick the correct pins')
         confirm[0].configure(command=lambda: CodeMaster.pinconfirm(CodeMaster, confirm[1], gameframe, background,
-                                                                  CodeMaster.pins, maxguesses, round))
-        CodeMaster.showguess(CodeMaster, None, gameframe, background, computerguess, maxguesses, round)
+                                                                   CodeMaster.pins, maxguesses, round))
+        CodeMaster.showguess(CodeMaster, None, gameframe, background, computerguesscolor, maxguesses, round)
         confirm[0].wait_variable(CodeMaster.goVar)
         feedback = CodeMaster_Player.getfeedback(CodeMaster_Player, CodeMaster.pins)
+        if feedback == (4, 0):
+            result = Label(root,
+                           text='You lost :(',
+                           font=('', 15, 'bold'),
+                           bg='white')
+            result.pack(side=RIGHT, padx=(0, 50))
+            break
+        possibilities = CodeMaster_Player.newposibilities(CodeMaster_Player, possibilities, computerguesscode, feedback)
+    else:
+        result = Label(root,
+                       text='You won :)',
+                       font=('', 15, 'bold'),
+                       bg='white')
+        result.pack(side=RIGHT, padx=(0, 50))
+
     root.mainloop()
 
 

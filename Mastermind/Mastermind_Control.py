@@ -8,6 +8,7 @@ maxguesses = 8
 background = '#bd745d'
 allcolors = ['black', 'lime', 'orange', 'red', 'blue', 'yellow']
 pins = ['black', 'white']
+possiblecases = ((0,0), (0,1), (0,2), (0,3), (0,4), (1,0), (1,1), (1,2), (1,3), (2,0), (2,1), (2,2), (3,0), (4,0))
 
 
 def startingscreen():
@@ -107,4 +108,6 @@ def start():
 
 
 if __name__ == '__main__':
-    start()
+    case = CodeMaster_Player.worstcase(CodeMaster_Player, '0012', possiblecases,
+                                CodeMaster_Player.getpossiblecombinations(CodeMaster_Player, '012345'))
+    print(case)

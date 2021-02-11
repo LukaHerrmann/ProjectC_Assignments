@@ -97,3 +97,12 @@ class CodeMaster_Player():
         else:
             white = 0
         return black, white
+
+
+    def worstcase(self, code, cases, possibilities):
+        '''Deze functie bepaalt voor elke case hoeveel mogelijkheden er nog overblijven van het totaal aantal
+        mogelijkheden. De functie returnt dan het grootste aantal wat van het totaal aantal mogelijkheden
+        kan overblijven'''
+        worst = max([len(CodeMaster_Player.newposibilities(CodeMaster_Player, possibilities,
+                                                           code, case)) for case in cases])
+        return worst

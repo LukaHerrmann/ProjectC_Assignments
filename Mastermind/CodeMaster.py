@@ -160,7 +160,6 @@ class CodeMaster_Player():
         difflist = [abs(middle-frequencylist[x][1]) for x in range(len(frequencylist))]
         closest_to_middle = list(frequencylist[difflist.index(min(difflist))][0])
         #gaat door mogelijkheden totdat de eerste match gevonden is
-        print(closest_to_middle)
         for guess in possibilities:
             if [''.join(str(x)) for x in self.countuniquenumbers(self, guess)] == closest_to_middle:
                 return guess

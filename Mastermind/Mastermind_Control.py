@@ -55,8 +55,7 @@ def cmplayer():
     gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
     confirm = CodeMaster.colorpick(CodeMaster, root, allcolors,
                                    'white', 'Pick four colors for the code')
-    confirm[0].configure(command=lambda: CodeMaster.codeconfirm(CodeMaster,root, confirm[1], gameframe, background,
-                                                                maxguesses, 1))
+    confirm[0].configure(command=lambda: CodeMaster.codeconfirm(CodeMaster, confirm[1], gameframe, background))
     confirm[0].wait_variable(CodeMaster.goVar)
     for round in range(1, maxguesses+1):
         if len(possibilities) == 0:

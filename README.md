@@ -6,6 +6,7 @@ Hier staan de summatieve opdrachten van Project C
 # Mastermind
     # Handleiding
     Run de file 'Mastermind_Control' om het spel op te starten.
+    In lijn 65 t/m 70 van 'Mastermind_Control' kan je configureren welk algoritme je wil dat de computer gebruikt om jouw code te raden
     
     # Heuristiek
     Van de mogelijke oplossingen kijken welke frequentie van unieke kleuren het dichtst bij de helft van het totale aantal oplossingen ligt en daar een oplossing willekeurig van       uitkiezen. Doe dit steeds opnieuw totdat de oplossing gevonden is.

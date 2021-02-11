@@ -61,12 +61,14 @@ def cmplayer():
         if len(possibilities) == 0:
             CodeMaster.showendmessage(CodeMaster, root, 'You chose the pins wrong >:(')
             break
-        #de simple algorithm
+        #=====================================================================================
+        #de simple algorithm (comment/decomment codelijn hieronder om te activeren/deactiveren)
         # computerguesscode = CodeMaster_Player.simplestrategy(CodeMaster_Player, possibilities)
-        #de expected value algorithm
+        #de expected value algorithm (comment/decomment codelijn hieronder om te activeren/deactiveren)
         # computerguesscode = CodeMaster_Player.expectedsizestrategy(CodeMaster_Player, possibilities, possiblecases)
-        #eigen algorithm
+        #eigen algorithm (comment/decomment codelijn hieronder om te activeren/deactiveren)
         computerguesscode = CodeMaster_Player.ownstrategy(CodeMaster_Player, possibilities)
+        #=====================================================================================
         computerguesscolor = CodeMaster_Player.numbtocolor(CodeMaster_Player, computerguesscode, allcolors)
         confirm = CodeMaster.colorpick(CodeMaster, root, pins, 'white', 'Pick the correct pins')
         #confirm[0] is een knop die de functie aanmaakt en comfirm[1] is een frame die de functie maakt

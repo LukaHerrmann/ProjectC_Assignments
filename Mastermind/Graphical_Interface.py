@@ -76,7 +76,7 @@ class CodeMaster():
                             height=height,
                             highlightthickness=0)
         tempcanvas.place(relx=x, rely=y, anchor=CENTER)
-        tempcanvas.create_oval(0,0,width,height, fill=color, outline=bordercolor)
+        tempcanvas.create_oval(0,0,width,height, width=2, fill=color, outline=bordercolor)
         return tempcanvas
 
 

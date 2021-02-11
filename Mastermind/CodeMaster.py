@@ -99,10 +99,44 @@ class CodeMaster_Player():
         return black, white
 
 
-    def worstcase(self, code, cases, possibilities):
+    def cases(self, code, cases, possibilities):
         '''Deze functie bepaalt voor elke case hoeveel mogelijkheden er nog overblijven van het totaal aantal
         mogelijkheden. De functie returnt dan het grootste aantal wat van het totaal aantal mogelijkheden
         kan overblijven'''
-        worst = max([len(CodeMaster_Player.newposibilities(CodeMaster_Player, possibilities,
-                                                           code, case)) for case in cases])
+        worst = [len(CodeMaster_Player.newposibilities(CodeMaster_Player, possibilities,
+                                                           code, case)) for case in cases]
         return worst
+
+
+    def countuniquenumbers(self, code):
+        frequency = CodeMaster_Computer.makefrequencydict(CodeMaster_Computer, code)
+        return sorted(list(frequency.values()))
+
+
+    def simplestrategy(self, possibilities):
+        '''Deze functie retourneert het eerste item uit de gegeven lijst van mogelijkheden'''
+        return possibilities[0]
+
+
+    def expectedsizestrategy(self, possibilities, possiblecases):
+        '''Deze functie rekent alle verschillende expected values uit van de gegeven lijst aan mogelijkheden
+        en retourneert de gok die de laagste expected value heeft'''
+        #deze dictionary heeft de verschillende gokken als keys en de lijst met aantal guesses per case als value
+        cases = {}
+        uniquenumbersused = []
+        #deze dictionary heeft de expected value als key en de guess als value
+        expected_values = {}
+        #loopt door alle mogelijke guesses
+        for code in possibilities:
+            uniquenumbers = CodeMaster_Player.countuniquenumbers(self, code)
+            #om duplicaten eruit te halen
+            #zorgt ervoor dat de code een stuk minder lang loopt
+            if uniquenumbers not in uniquenumbersused:
+                uniquenumbersused.append(uniquenumbers)
+                cases[code] = CodeMaster_Player.cases(CodeMaster_Player, code, possiblecases, possibilities)
+        #loopt door alle guesses met unieke expected values
+        for guess in cases.keys():
+            squared = [cases[guess][x]**2 for x in range(len(cases[guess]))]
+            expectedvalue = sum(squared)/len(possibilities)
+            expected_values[expectedvalue] = guess
+        return expected_values[min(expected_values.keys())]

@@ -60,7 +60,6 @@ def cmplayer():
     confirm[0].configure(command=lambda: CodeMaster.codeconfirm(CodeMaster,root, confirm[1], gameframe, background,
                                                                 maxguesses, 1))
     confirm[0].wait_variable(CodeMaster.goVar)
-    code = CodeMaster_Player.colortonumb(CodeMaster_Player, CodeMaster.code, allcolors)
     for round in range(1, maxguesses+1):
         if len(possibilities) == 0:
             result = Label(root,
@@ -69,8 +68,8 @@ def cmplayer():
                            bg='white')
             result.pack(side=RIGHT, padx=(0, 50))
             break
-        computerguesscolor = CodeMaster_Player.numbtocolor(CodeMaster_Player, possibilities[0], allcolors)
-        computerguesscode = CodeMaster_Player.colortonumb(CodeMaster_Player, computerguesscolor, allcolors)
+        computerguesscode = simplestrategy(possibilities)
+        computerguesscolor = CodeMaster_Player.numbtocolor(CodeMaster_Player, computerguesscode, allcolors)
         confirm = CodeMaster.colorpick(CodeMaster, root, pins, 'white',
                                        'Pick the correct pins')
         confirm[0].configure(command=lambda: CodeMaster.pinconfirm(CodeMaster, confirm[1], gameframe, background,
@@ -96,6 +95,23 @@ def cmplayer():
     root.mainloop()
 
 
+def simplestrategy(possibilities):
+    return possibilities[0]
+
+
+def expectedsizestrategy(possibilities):
+    worstcases = []
+    codes_used = []
+    # for code in possibilities:
+    worstcases = [{code:CodeMaster_Player.worstcase(CodeMaster_Player, code, possiblecases, possibilities)}
+                  for code in possibilities]
+    return worstcases
+
+
+def ownstrategy(possibilities):
+    pass
+
+
 def start():
     # result is True als de gebruiker de codemaster wil zijn en False als de gebruiker
     # wil dat de computer code master is
@@ -108,6 +124,20 @@ def start():
 
 
 if __name__ == '__main__':
-    case = CodeMaster_Player.worstcase(CodeMaster_Player, '0012', possiblecases,
-                                CodeMaster_Player.getpossiblecombinations(CodeMaster_Player, '012345'))
-    print(case)
+    # case = CodeMaster_Player.worstcase(CodeMaster_Player, '0012', possiblecases,
+    #                             CodeMaster_Player.getpossiblecombinations(CodeMaster_Player, '012345'))
+    # print(case)
+    possibilities = CodeMaster_Player.getpossiblecombinations(CodeMaster_Player, '012345')
+    # cases = expectedsizestrategy(possibilities)
+    # casesused = []
+    # for case in cases:
+    #     if case.values() not in casesused:
+    #         casesused.append(case.values())
+    #         print(case)
+    # thing = CodeMaster_Player.worstcase(CodeMaster_Player, '0', possiblecases, possibilities)
+    # print(thing)
+    # print(CodeMaster_Player.countuniquenumbers(CodeMaster_Player,'0010'))
+    # print(CodeMaster_Player.countuniquenumbers(CodeMaster_Player, '0100'))
+    print(CodeMaster_Player.expectedsizestrategy(CodeMaster_Player, possibilities, possiblecases))
+    # print(CodeMaster_Player.cases(CodeMaster_Player, '0034', possiblecases, possibilities))
+    # start()

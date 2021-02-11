@@ -114,13 +114,15 @@ class CodeMaster_Player():
 
 
     def simplestrategy(self, possibilities):
-        '''Deze functie retourneert het eerste item uit de gegeven lijst van mogelijkheden'''
+        '''Deze functie retourneert het eerste item uit de gegeven lijst van mogelijkheden,
+        bron: Universiteit Groningen'''
         return possibilities[0]
 
 
     def expectedsizestrategy(self, possibilities, possiblecases):
         '''Deze functie rekent alle verschillende expected values uit van de gegeven lijst aan mogelijkheden
-        en retourneert de gok die de laagste expected value heeft'''
+        en retourneert de gok die de laagste expected value heeft
+        bron: Universiteit Groningen'''
         #deze dictionary heeft de verschillende gokken als keys en de lijst met aantal guesses per case als value
         cases = {}
         uniquenumbersused = []

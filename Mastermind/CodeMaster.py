@@ -109,6 +109,8 @@ class CodeMaster_Player():
 
 
     def countuniquenumbers(self, code):
+        '''Deze functie telt hoeveel verschillende kleuren in een code zitten en hoeveel van het totaal dat
+        dan zijn'''
         frequency = CodeMaster_Computer.makefrequencydict(CodeMaster_Computer, code)
         return sorted(list(frequency.values()))
 
@@ -120,7 +122,7 @@ class CodeMaster_Player():
 
 
     def expectedsizestrategy(self, possibilities, possiblecases):
-        '''Deze functie rekent alle verschillende expected values uit van de gegeven lijst aan mogelijkheden
+        '''Deze functie rekent alle verschillende expected sizes uit van de gegeven lijst aan mogelijkheden
         en retourneert de gok die de laagste expected value heeft
         bron: Universiteit Groningen'''
         #deze dictionary heeft de verschillende gokken als keys en de lijst met aantal guesses per case als value
@@ -142,3 +144,23 @@ class CodeMaster_Player():
             expectedvalue = sum(squared)/len(possibilities)
             expected_values[expectedvalue] = guess
         return expected_values[min(expected_values.keys())]
+
+
+    def ownstrategy(self, possibilities):
+        '''Deze functie bepaalt de frequenties van de kleuren in de mogelijkheden en kijkt welke frequentie
+        het dichtst bij de halve lengte van de lijst komt. Vervolgens wordt dan de eerste item uit de lijst
+        van mogelijkheden gepakt die hieraan voldoet'''
+        #een lijst met de frequenties van unieke kleuren binnen een bepaalde combinatie
+        uniquenumbers = [''.join(str(x) for x in self.countuniquenumbers(self, code)) for code in possibilities]
+        #een dictionary van frequenties van de frequenties van unieke kleuren
+        frequency = CodeMaster_Computer.makefrequencydict(CodeMaster_Computer, uniquenumbers)
+        frequencylist = [[key, value] for key, value in frequency.items()]
+        middle = len(possibilities)/2
+        #een lijst met de verschillen van de frequenties ten opzichte van de halve lengte
+        difflist = [abs(middle-frequencylist[x][1]) for x in range(len(frequencylist))]
+        closest_to_middle = list(frequencylist[difflist.index(min(difflist))][0])
+        #gaat door mogelijkheden totdat de eerste match gevonden is
+        print(closest_to_middle)
+        for guess in possibilities:
+            if [''.join(str(x)) for x in self.countuniquenumbers(self, guess)] == closest_to_middle:
+                return guess

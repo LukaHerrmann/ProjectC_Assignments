@@ -179,3 +179,11 @@ class CodeMaster():
             CodeMaster.goVar.set(1)
             self.placerow(self, placeframe, colorguess, background, 0.15, 0.16, guessnumber/totalguess*0.8,
                           40, 40, None, 0, len(colorguess))
+
+
+    def showendmessage(self, root, text):
+        endmessage = Label(root,
+                           text=text,
+                           font=('', 15, 'bold'),
+                           bg='white')
+        endmessage.pack(side=RIGHT, padx=(0, 50))

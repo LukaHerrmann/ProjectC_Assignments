@@ -12,6 +12,8 @@ possiblecases = ((0,0), (0,1), (0,2), (0,3), (0,4), (1,0), (1,1), (1,2), (1,3), 
 
 
 def startingscreen():
+    '''Deze functie maakt een grafische interface waarbij de speler kan kiezen of hij/zij de codemaster
+    wil zijn of wil dat de computer de codemaster is'''
     root = startscreen.createscreen(startscreen, 400, 400,
                                     '', 'Mastermind', '#bd745d')
     buttons = startscreen.createbuttons(startscreen, root, 'brown', 15, 2, 0.12)
@@ -22,6 +24,8 @@ def startingscreen():
 
 
 def cmcomputer():
+    '''Deze functie maakt de grafische interface en verzorgt de algoritmes als de computer de code moet
+    maken en de speler deze moet raden'''
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
     gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
     code = CodeMaster_Computer.makecode(CodeMaster_Computer, allcolors, 4)
@@ -34,24 +38,18 @@ def cmcomputer():
         pins = CodeMaster_Computer.feedbacktocolor(CodeMaster_Computer, pincolors)
         CodeMaster.showpins(CodeMaster, gameframe, background, pins, maxguesses, round)
         if pins == ['black' for x in range(4)]:
-            result = Label(root,
-                           text='You won :)',
-                           font=('', 15, 'bold'),
-                           bg='white')
-            result.pack(side=RIGHT, padx=(0, 50))
+            CodeMaster.showendmessage(CodeMaster, root, 'You won :)')
             break
     else:
-        result = Label(root,
-                       text='You lost :(',
-                       font=('',15,'bold'),
-                       bg='white')
-        result.pack(side=RIGHT,padx=(0,50))
+        CodeMaster.showendmessage(CodeMaster, root, 'You lost :(')
         CodeMaster.placerow(CodeMaster, gameframe, code, background, 0.2, 0.2, 0.92,
                       50, 50, None, 0, len(code))
     root.mainloop()
 
 
 def cmplayer():
+    '''Deze functie maakt de grafische interface en verzorgt de algoritmes als de computer de code
+    van de speler moet raden'''
     possibilities = CodeMaster_Player.getpossiblecombinations(CodeMaster_Player, '012345')
     root = startscreen.createscreen(startscreen, 800, 700, 'Mastermind', '', 'white')
     gameframe = CodeMaster.creategameframe(CodeMaster, root, 400, LEFT, background)
@@ -62,38 +60,30 @@ def cmplayer():
     confirm[0].wait_variable(CodeMaster.goVar)
     for round in range(1, maxguesses+1):
         if len(possibilities) == 0:
-            result = Label(root,
-                           text='You chose the pins wrong >:(',
-                           font=('', 15, 'bold'),
-                           bg='white')
-            result.pack(side=RIGHT, padx=(0, 50))
+            CodeMaster.showendmessage(CodeMaster, root, 'You chose the pins wrong >:(')
             break
         #de simple algorithm
         # computerguesscode = CodeMaster_Player.simplestrategy(CodeMaster_Player, possibilities)
         #de expected value algorithm
-        computerguesscode = CodeMaster_Player.expectedsizestrategy(CodeMaster_Player, possibilities, possiblecases)
+        # computerguesscode = CodeMaster_Player.expectedsizestrategy(CodeMaster_Player, possibilities, possiblecases)
+        #eigen algorithm
+        computerguesscode = CodeMaster_Player.ownstrategy(CodeMaster_Player, possibilities)
         computerguesscolor = CodeMaster_Player.numbtocolor(CodeMaster_Player, computerguesscode, allcolors)
-        confirm = CodeMaster.colorpick(CodeMaster, root, pins, 'white',
-                                       'Pick the correct pins')
+        confirm = CodeMaster.colorpick(CodeMaster, root, pins, 'white', 'Pick the correct pins')
+        #confirm[0] is een knop die de functie aanmaakt en comfirm[1] is een frame die de functie maakt
         confirm[0].configure(command=lambda: CodeMaster.pinconfirm(CodeMaster, confirm[1], gameframe, background,
                                                                    CodeMaster.pins, maxguesses, round))
+        #geeft de gok op het scherm weer
         CodeMaster.showguess(CodeMaster, None, gameframe, background, computerguesscolor, maxguesses, round)
         confirm[0].wait_variable(CodeMaster.goVar)
         feedback = CodeMaster_Player.getfeedback(CodeMaster_Player, CodeMaster.pins)
+        #bij deze feedback zijn alle kleuren goed
         if feedback == (4, 0):
-            result = Label(root,
-                           text='You lost :(',
-                           font=('', 15, 'bold'),
-                           bg='white')
-            result.pack(side=RIGHT, padx=(0, 50))
+            CodeMaster.showendmessage(CodeMaster, root, 'You lost :(')
             break
         possibilities = CodeMaster_Player.newposibilities(CodeMaster_Player, possibilities, computerguesscode, feedback)
     else:
-        result = Label(root,
-                       text='You won :)',
-                       font=('', 15, 'bold'),
-                       bg='white')
-        result.pack(side=RIGHT, padx=(0, 50))
+        CodeMaster.showendmessage(CodeMaster, root, 'You won :)')
 
     root.mainloop()
 

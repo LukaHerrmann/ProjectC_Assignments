@@ -61,6 +61,7 @@ class startscreen():
 
 class CodeMaster():
     '''Deze class verzorgt alle grafische weergaves die nodig zijn om het spel Mastermin weer te geven'''
+    #algemene class variabelen om voorbij de functies te tracken
     code = []
     pins = []
     step = 1

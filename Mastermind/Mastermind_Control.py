@@ -4,7 +4,9 @@ from Graphical_Interface import *
 from CodeMaster import CodeMaster_Player
 from CodeMaster import CodeMaster_Computer
 
+#algemene variabeles voor het spel
 maxguesses = 8
+#achtergrond voor het spel zelf (bruin)
 background = '#bd745d'
 allcolors = ['black', 'lime', 'orange', 'red', 'blue', 'yellow']
 pins = ['black', 'white']

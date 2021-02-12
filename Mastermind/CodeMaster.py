@@ -121,7 +121,7 @@ class CodeMaster_Player():
         return possibilities[0]
 
 
-    def expectedsizestrategy(self, possibilities, possiblecases):
+    def expectedsizestrategy(self, possibilities, possiblecases, round):
         '''Deze functie rekent alle verschillende expected sizes uit van de gegeven lijst aan mogelijkheden
         en retourneert de gok die de laagste expected value heeft
         bron: Universiteit Groningen'''
@@ -130,20 +130,24 @@ class CodeMaster_Player():
         uniquenumbersused = []
         #deze dictionary heeft de expected value als key en de guess als value
         expected_values = {}
-        #loopt door alle mogelijke guesses
-        for code in possibilities:
-            uniquenumbers = CodeMaster_Player.countuniquenumbers(self, code)
-            #om duplicaten eruit te halen
-            #zorgt ervoor dat de code een stuk minder lang loopt
-            if uniquenumbers not in uniquenumbersused:
-                uniquenumbersused.append(uniquenumbers)
-                cases[code] = CodeMaster_Player.cases(CodeMaster_Player, code, possiblecases, possibilities)
-        #loopt door alle guesses met unieke expected values
-        for guess in cases.keys():
-            squared = [cases[guess][x]**2 for x in range(len(cases[guess]))]
-            expectedvalue = sum(squared)/len(possibilities)
-            expected_values[expectedvalue] = guess
-        return expected_values[min(expected_values.keys())]
+        #altijd beginnen met '0011' om ervoor te zorgen dat de computer niet meer dan 5 guesses nodig heeft
+        if round == 1:
+            return '0011'
+        else:
+            #loopt door alle mogelijke guesses
+            for code in possibilities:
+                uniquenumbers = CodeMaster_Player.countuniquenumbers(self, code)
+                #om duplicaten eruit te halen
+                #zorgt ervoor dat de code een stuk minder lang loopt
+                if uniquenumbers not in uniquenumbersused:
+                    uniquenumbersused.append(uniquenumbers)
+                    cases[code] = CodeMaster_Player.cases(CodeMaster_Player, code, possiblecases, possibilities)
+            #loopt door alle guesses met unieke expected values
+            for guess in cases.keys():
+                squared = [cases[guess][x]**2 for x in range(len(cases[guess]))]
+                expectedvalue = sum(squared)/len(possibilities)
+                expected_values[expectedvalue] = guess
+            return expected_values[min(expected_values.keys())]
 
 
     def ownstrategy(self, possibilities):

@@ -67,9 +67,9 @@ def cmplayer():
         #de simple algorithm (comment/decomment codelijn hieronder om te activeren/deactiveren)
         # computerguesscode = CodeMaster_Player.simplestrategy(CodeMaster_Player, possibilities)
         #de expected value algorithm (comment/decomment codelijn hieronder om te activeren/deactiveren)
-        # computerguesscode = CodeMaster_Player.expectedsizestrategy(CodeMaster_Player, possibilities, possiblecases)
+        computerguesscode = CodeMaster_Player.expectedsizestrategy(CodeMaster_Player, possibilities, possiblecases, round)
         #eigen algorithm (comment/decomment codelijn hieronder om te activeren/deactiveren)
-        computerguesscode = CodeMaster_Player.ownstrategy(CodeMaster_Player, possibilities)
+        # computerguesscode = CodeMaster_Player.ownstrategy(CodeMaster_Player, possibilities)
         #=====================================================================================
         computerguesscolor = CodeMaster_Player.numbtocolor(CodeMaster_Player, computerguesscode, allcolors)
         confirm = CodeMaster.colorpick(CodeMaster, root, pins, 'white', 'Pick the correct pins')

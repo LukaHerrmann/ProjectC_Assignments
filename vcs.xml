@@ -22,6 +22,10 @@
           <option name="url" value="https://gitlab.com/hu-hbo-ict/ai/v1gp.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/LukaHerrmann/Opdracht2a" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\lukaj\PycharmProjects" />
